@@ -32,8 +32,8 @@ end
 
 local function GetRankName(rankId)
     if rankId == 8 then return "NoPe [Owner]"
-    elseif rankId == 6 then return "TECH [Owner]"
-    elseif rankId == 7 then return "DIRO [Co-Owner]"
+    elseif rankId == 7 then return "TECH [Owner]"
+    elseif rankId == 6 then return "DIRO [Co-Owner]"
     elseif rankId == 5 then return "YEJUN [Co-Owner]"
     elseif rankId == 4 then return "TOP1"
     elseif rankId == 3 then return "TOP2"
