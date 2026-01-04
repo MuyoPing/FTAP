@@ -6,8 +6,8 @@ local Auto = syn and syn.queue_on_teleport or fluxus and fluxus.queue_on_telepor
 local inv = workspace:WaitForChild(game.Players.LocalPlayer.Name.."SpawnedInToys")
 
 local NP_LIST = { 9078065998 } 
-local DIRO_LIST = { 9083071762, 7868402170 }
 local TECH_LIST = { 9013467605 }
+local DIRO_LIST = { 9083071762, 7868402170 }
 local YEJUN_LIST = { 7725129044 }
 
 local TOP1_LIST = { 2323908038 }
