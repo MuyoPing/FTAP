@@ -1,21 +1,13 @@
------------------------------------------------------
--- 서비스
------------------------------------------------------
 local TextChatService = game:GetService("TextChatService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local TeleportService = game:GetService("TeleportService")
-
 local LocalPlayer = Players.LocalPlayer
 local Auto = syn and syn.queue_on_teleport or fluxus and fluxus.queue_on_teleport or queue_on_teleport
-local inv = workspace:WaitForChild(LocalPlayer.Name .. "SpawnedInToys")
+local inv = workspace:WaitForChild(game.Players.LocalPlayer.Name.."SpawnedInToys")
 
------------------------------------------------------
--- 랭크 리스트 (NoPe + TECH 동급)
------------------------------------------------------
-local NP_LIST    = { 9078065998 }
-local TECH_LIST  = { 9013467605 } -- 🔥 NoPe와 동급
-local DIRO_LIST  = { 9083071762, 7868402170 }
+local NP_LIST = { 9078065998 } 
+local DIRO_LIST = { 9083071762, 7868402170 }
+local TECH_LIST = { 9013467605 }
 local YEJUN_LIST = { 7725129044 }
 
 local TOP1_LIST = { 2323908038 }
@@ -24,13 +16,13 @@ local TOP3_LIST = { 2609742251 }
 local TOP4_LIST = { 0 }
 
 -----------------------------------------------------
--- 랭크 판별
+-- Rank
 -----------------------------------------------------
 local function GetRank(userId)
-    for _, id in ipairs(NP_LIST)   do if userId == id then return 8 end end
+    for _, id in ipairs(NP_LIST) do if userId == id then return 8 end end
     for _, id in ipairs(TECH_LIST) do if userId == id then return 7 end end
     for _, id in ipairs(DIRO_LIST) do if userId == id then return 6 end end
-    for _, id in ipairs(YEJUN_LIST)do if userId == id then return 5 end end
+    for _, id in ipairs(YEJUN_LIST) do if userId == id then return 5 end end
     for _, id in ipairs(TOP1_LIST) do if userId == id then return 4 end end
     for _, id in ipairs(TOP2_LIST) do if userId == id then return 3 end end
     for _, id in ipairs(TOP3_LIST) do if userId == id then return 2 end end
@@ -39,8 +31,9 @@ local function GetRank(userId)
 end
 
 local function GetRankName(rankId)
-    if rankId == 8 then return "NoPe / TECH [Owner]"
+    if rankId == 8 then return "NoPe [Owner]"
     elseif rankId == 7 then return "DIRO [Co-Owner]"
+    elseif rankId == 6 then return "TECH [Owner]"
     elseif rankId == 5 then return "YEJUN [Co-Owner]"
     elseif rankId == 4 then return "TOP1"
     elseif rankId == 3 then return "TOP2"
@@ -50,32 +43,34 @@ local function GetRankName(rankId)
 end
 
 -----------------------------------------------------
--- Whisper 응답
+-- Whisper
 -----------------------------------------------------
-local function ReplySmartWhisper(targetPlayer, message)
-    local myId, targetId = LocalPlayer.UserId, targetPlayer.UserId
-    local smallId, bigId = math.min(myId, targetId), math.max(myId, targetId)
-    local channelName = "RBXWhisper:" .. smallId .. "_" .. bigId
+local function ReplySmartWhisper(targetPlayer, messageContent)
+    local myId = LocalPlayer.UserId
+    local targetId = targetPlayer.UserId
+    local smallId = math.min(myId, targetId)
+    local bigId = math.max(myId, targetId)
 
-    local channels = TextChatService:FindFirstChild("TextChannels")
-    if not channels then return end
+    local whisperChannelName = "RBXWhisper:" .. smallId .. "_" .. bigId
+    local textChannels = TextChatService:FindFirstChild("TextChannels")
+    if not textChannels then return end
 
-    local whisper = channels:FindFirstChild(channelName)
-    local general = channels:FindFirstChild("RBXGeneral")
+    local generalChannel = textChannels:FindFirstChild("RBXGeneral")
+    local targetChannel = textChannels:FindFirstChild(whisperChannelName)
 
-    if whisper then
-        whisper:SendAsync(message)
-    elseif general then
-        general:SendAsync("/w " .. targetPlayer.DisplayName)
+    if targetChannel then
+        targetChannel:SendAsync(messageContent)
+    elseif generalChannel then
+        generalChannel:SendAsync("/w " .. targetPlayer.DisplayName)
         task.spawn(function()
-            local ch = channels:WaitForChild(channelName, 3)
-            if ch then ch:SendAsync(message) end
+            local TC = textChannels:WaitForChild(whisperChannelName, 3)
+            if TC then TC:SendAsync(messageContent) end
         end)
     end
 end
 
 -----------------------------------------------------
--- 타겟 판별
+-- Target Check
 -----------------------------------------------------
 local function IsTargetMe(targetName)
     if not targetName then return false end
@@ -85,27 +80,31 @@ local function IsTargetMe(targetName)
         return true
     end
 
-    return LocalPlayer.Name:lower():sub(1, #targetName) == targetName
-        or LocalPlayer.DisplayName:lower():sub(1, #targetName) == targetName
+    local myName = LocalPlayer.Name:lower()
+    local myDisplay = LocalPlayer.DisplayName:lower()
+
+    return myName:sub(1, #targetName) == targetName
+        or myDisplay:sub(1, #targetName) == targetName
 end
 
 -----------------------------------------------------
--- 명령어 처리 (접두사 T)
+-- Command Handler (prefix: t)
 -----------------------------------------------------
-TextChatService.MessageReceived:Connect(function(msg)
+TextChatService.MessageReceived:Connect(function(textChatMessage)
     task.spawn(function()
-        if not msg.TextSource then return end
+        local textSource = textChatMessage.TextSource
+        if not textSource then return end
 
-        local senderId = msg.TextSource.UserId
-        local sender = Players:GetPlayerByUserId(senderId)
-        if not sender then return end
+        local senderId = textSource.UserId
+        local senderPlayer = Players:GetPlayerByUserId(senderId)
+        if not senderPlayer then return end
 
-        local message = msg.Text
-        if message:sub(1,1) ~= "T" then return end -- 🔥 접두사 T
+        local message = textChatMessage.Text
+        if message:sub(1,1) ~= "t" then return end -- ✅ 접두사 t
 
         local args = string.split(message, " ")
-        local cmd = args[1]:lower()
-        local target = args[2]
+        local cmd = string.lower(args[1])
+        local arg = args[2]
         local arg3 = args[3]
 
         local senderRank = GetRank(senderId)
@@ -115,11 +114,11 @@ TextChatService.MessageReceived:Connect(function(msg)
         if myRank >= senderRank then return end
 
         if cmd == "tds" then
-            ReplySmartWhisper(sender, "Rank: " .. GetRankName(myRank))
+            ReplySmartWhisper(senderPlayer, "Rank: " .. GetRankName(myRank))
             return
         end
 
-        if not IsTargetMe(target) then return end
+        if not IsTargetMe(arg) then return end
 
         local char = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
         local humanoid = char:FindFirstChild("Humanoid")
@@ -129,15 +128,23 @@ TextChatService.MessageReceived:Connect(function(msg)
         -------------------------------------------------
         -- TOP4+
         -------------------------------------------------
-        if senderRank >= 1 and humanoid then
-            if cmd == "tsit" then humanoid.Sit = true
-            elseif cmd == "tunsit" then humanoid.Sit = false
-            elseif cmd == "tstun" or cmd == "tplatformstand" then humanoid.PlatformStand = true
-            elseif cmd == "tunstun" or cmd == "tunplatformstand" then humanoid.PlatformStand = false
-            elseif cmd == "tstate" then humanoid.EvaluateStateMachine = true
-            elseif cmd == "tunstate" then humanoid.EvaluateStateMachine = false
-            elseif cmd == "tws" or cmd == "twalkspeed" then humanoid.WalkSpeed = tonumber(arg3) or 16
-            elseif cmd == "tjp" or cmd == "tjumppower" then humanoid.JumpPower = tonumber(arg3) or 24
+        if senderRank >= 1 then
+            if cmd == "tsit" then
+                if humanoid then humanoid.Sit = true end
+            elseif cmd == "tunsit" then
+                if humanoid then humanoid.Sit = false end
+            elseif cmd == "tstun" or cmd == "tplatformstand" then
+                if humanoid then humanoid.PlatformStand = true end
+            elseif cmd == "tunstun" or cmd == "tunplatformstand" then
+                if humanoid then humanoid.PlatformStand = false end
+            elseif cmd == "tstate" then
+                if humanoid then humanoid.EvaluateStateMachine = true end
+            elseif cmd == "tunstate" then
+                if humanoid then humanoid.EvaluateStateMachine = false end
+            elseif cmd == "tws" or cmd == "twalkspeed" then
+                if humanoid then humanoid.WalkSpeed = tonumber(arg3) or 16 end
+            elseif cmd == "tjp" or cmd == "tjumppower" then
+                if humanoid then humanoid.JumpPower = tonumber(arg3) or 24 end
             end
         end
 
@@ -145,29 +152,29 @@ TextChatService.MessageReceived:Connect(function(msg)
         -- TOP3+
         -------------------------------------------------
         if senderRank >= 2 then
-            if cmd == "tragdoll" and hrp and ReplicatedStorage:FindFirstChild("CharacterEvents") then
-                pcall(function()
-                    ReplicatedStorage.CharacterEvents.RagdollRemote:FireServer(hrp, tonumber(arg3) or 1)
-                end)
-
-            elseif (cmd == "tbring" or cmd == "ttp") and torso and sender.Character and sender.Character:FindFirstChild("Torso") then
-                torso.CFrame = sender.Character.Torso.CFrame
-
+            if cmd == "tragdoll" then
+                if hrp and ReplicatedStorage:FindFirstChild("CharacterEvents") then
+                    pcall(function()
+                        ReplicatedStorage.CharacterEvents.RagdollRemote:FireServer(hrp, tonumber(arg3) or 1)
+                    end)
+                end
+            elseif cmd == "tbring" or cmd == "ttp" then
+                local senderChar = senderPlayer.Character
+                if torso and senderChar and senderChar:FindFirstChild("Torso") then
+                    torso.CFrame = senderChar.Torso.CFrame
+                end
             elseif cmd == "trj" or cmd == "trejoin" then
-                TeleportService:TeleportToPlaceInstance(game.PlaceId, game.JobId)
-
+                game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId)
             elseif cmd == "tautorj" or cmd == "tautorejoin" then
                 Auto([[game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId)]])
-
             elseif cmd == "tvoid" or cmd == "theaven" then
-                if torso then torso.CFrame = CFrame.new(torso.Position.X, 9e7, torso.Position.Z) end
-
+                if torso then torso.CFrame = CFrame.new(torso.X, 99999999, torso.Z) end
             elseif cmd == "tboom" then
                 task.spawn(function()
                     ReplicatedStorage.MenuToys.SpawnToyRemoteFunction:InvokeServer(
                         "BombMissile",
                         char.CamPart.CFrame,
-                        Vector3.new()
+                        Vector3.new(0,0,0)
                     )
                 end)
                 task.wait(0.3)
@@ -182,7 +189,7 @@ TextChatService.MessageReceived:Connect(function(msg)
                     ExplodesByPointy = false,
                     DestroysModel = true,
                     PositionPart = inv.BombMissile.PartHitDetector
-                }, Vector3.new())
+                }, Vector3.new(0,0,0))
             end
         end
 
@@ -191,22 +198,22 @@ TextChatService.MessageReceived:Connect(function(msg)
         -------------------------------------------------
         if senderRank >= 3 then
             if cmd == "tkill" or cmd == "tdeath" or cmd == "tdie" or cmd == "toof" then
-                humanoid.Health = 0
-                humanoid:ChangeState(Enum.HumanoidStateType.Dead)
-
+                if humanoid then
+                    humanoid.Health = 0
+                    humanoid.RigType = Enum.HumanoidRigType.R15
+                    humanoid:ChangeState(Enum.HumanoidStateType.Dead)
+                end
             elseif cmd == "tpkick" or cmd == "tplayerkick" or cmd == "tplrkick" then
-                sender:Destroy()
-
+                senderPlayer:Destroy()
             elseif cmd == "tckick" or cmd == "tclientkick" then
                 LocalPlayer:Kick("")
-
             elseif cmd == "tsk" or cmd == "tserverkick" then
                 if hrp then
-                    hrp.CFrame = CFrame.new(999999, 999999, 999999)
+                    hrp.CFrame = CFrame.new(999999,999999,999999)
                     task.wait(0.1)
                     char:Destroy()
                 end
             end
         end
     end)
-end)--cmd
+end)
