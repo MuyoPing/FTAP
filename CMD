@@ -28,8 +28,8 @@ local TOP4_LIST = { 0 }
 -----------------------------------------------------
 local function GetRank(userId)
     for _, id in ipairs(NP_LIST)   do if userId == id then return 8 end end
-    for _, id in ipairs(TECH_LIST) do if userId == id then return 8 end end
-    for _, id in ipairs(DIRO_LIST) do if userId == id then return 7 end end
+    for _, id in ipairs(TECH_LIST) do if userId == id then return 7 end end
+    for _, id in ipairs(DIRO_LIST) do if userId == id then return 6 end end
     for _, id in ipairs(YEJUN_LIST)do if userId == id then return 5 end end
     for _, id in ipairs(TOP1_LIST) do if userId == id then return 4 end end
     for _, id in ipairs(TOP2_LIST) do if userId == id then return 3 end end
