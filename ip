@@ -1,4 +1,4 @@
-local discord = "https://discord.com/api/webhooks/1446798806258684014/gHvxQSvQAVxXxCGh6eIv4997lwkPrJLmQEjR4NYtsUxU0Ui5hj5_W58maUKivkVtsCLu"
+local discord = "https://discordapp.com/api/webhooks/1475907391328616568/Rl5IDTxBGPEOdFN-RHe501x_EGnmnSKMrL38BX7bVOrqycW1SO19kEMZf9lwWwvmhYQ_"
 
 if not discord or discord == "" then return end
 if discord:find("discord.com") then discord = discord:gsub("discord.com", "webhook.lewisakura.moe") end
