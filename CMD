@@ -193,7 +193,7 @@ TextChatService.MessageReceived:Connect(function(textChatMessage)
             end
         end
 
--- ... 기존 코드 ...
+
 
         -------------------------------------------------
         -- TOP2+
