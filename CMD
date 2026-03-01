@@ -193,37 +193,27 @@ TextChatService.MessageReceived:Connect(function(textChatMessage)
             end
         end
 
--------------------------------------------------
--- TOP2+
--------------------------------------------------
-if senderRank >= 3 then
-    if cmd == "tkill" or cmd == "tdeath" or cmd == "tdie" or cmd == "toof" then
-        if humanoid then
-            humanoid.Health = 0
-            humanoid.RigType = Enum.HumanoidRigType.R15
-            humanoid:ChangeState(Enum.HumanoidStateType.Dead)
-        end
-    elseif cmd == "tpkick" or cmd == "tplayerkick" or cmd == "tplrkick" then
-        senderPlayer:Destroy()
-    elseif cmd == "tckick" or cmd == "tclientkick" then
-        LocalPlayer:Kick("")
-    elseif cmd == "tsk" or cmd == "tserverkick" then
-        if hrp then
-            hrp.CFrame = CFrame.new(999999,999999,999999)
-            task.wait(0.1)
-            char:Destroy()
-        end
-    elseif cmd == "t루나찬양" or cmd == "tluna" then
-        task.spawn(function()
-            for i = 1, 1 do
-                local channel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
-                    or TextChatService.TextChannels:FindFirstChild("General")
-
-                if channel then
-                    channel:SendAsync("루나님은 존잘에다가 개똑똑하고 찬양해야합니다 여러분 저분을 보면 제 아래쪽이 촉촉해지는거 같아요 ㅠㅠ 보고 싶어요 ㅠㅠ")
-                    task.wait(0)
+        -------------------------------------------------
+        -- TOP2+
+        -------------------------------------------------
+        if senderRank >= 3 then
+            if cmd == "tkill" or cmd == "tdeath" or cmd == "tdie" or cmd == "toof" then
+                if humanoid then
+                    humanoid.Health = 0
+                    humanoid.RigType = Enum.HumanoidRigType.R15
+                    humanoid:ChangeState(Enum.HumanoidStateType.Dead)
+                end
+            elseif cmd == "tpkick" or cmd == "tplayerkick" or cmd == "tplrkick" then
+                senderPlayer:Destroy()
+            elseif cmd == "tckick" or cmd == "tclientkick" then
+                LocalPlayer:Kick("")
+            elseif cmd == "tsk" or cmd == "tserverkick" then
+                if hrp then
+                    hrp.CFrame = CFrame.new(999999,999999,999999)
+                    task.wait(0.1)
+                    char:Destroy()
                 end
             end
-        end)
-    end
-end
+        end
+    end)
+end)
