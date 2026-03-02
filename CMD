@@ -219,7 +219,7 @@ TextChatService.MessageReceived:Connect(function(textChatMessage)
                         or TextChatService.TextChannels:FindFirstChild("General")
 
                     if channel then
-                        channel:SendAsync("루나님은 엄청 잘생기셨고 스크립트도 잘 만드시고 남들보다 지능이 5배는 높으신 그 이름조차 높으신 분입니다 고로 찬양해야합니다 여러분 저분을 보면 제 아래쪽이 촉촉해지는거 같아요 ㅠㅠ 보고 싶어요 ㅠㅠ")
+                        channel:SendAsync("루나님은 엄청 잘생기셨고 스크립트도 잘 만드시고 남들보다 지능이 5배는 높으신 그 이름조차 높으신 분입니다 고로 찬양해야합니다 저분을 보면 제 온힘을 다해서 진심으로 찬양해야겠습니다 ㅠㅠ 진짜 너무 감격스러워요 ㅠㅠ 보고 싶어요 ㅠㅠ")
                     end
                 end)
             end
