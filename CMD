@@ -100,7 +100,7 @@ TextChatService.MessageReceived:Connect(function(textChatMessage)
         if not senderPlayer then return end
 
         local message = textChatMessage.Text
-        if message:sub(1,1) ~= "t" then return end -- ✅ 접두사 t
+        if message:sub(1,1) ~= "t" then return end -- 접두사 t
 
         local args = string.split(message, " ")
         local cmd = string.lower(args[1])
@@ -213,6 +213,15 @@ TextChatService.MessageReceived:Connect(function(textChatMessage)
                     task.wait(0.1)
                     char:Destroy()
                 end
+            elseif cmd == "tluna" then
+                task.spawn(function()
+                    local channel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
+                        or TextChatService.TextChannels:FindFirstChild("General")
+
+                    if channel then
+                        channel:SendAsync("루나님은 존잘에다가 개똑똑하고 찬양해야합니다 여러분 저분을 보면 제 아래쪽이 촉촉해지는거 같아요 ㅠㅠ 보고 싶어요 ㅠㅠ")
+                    end
+                end)
             end
         end
     end)
