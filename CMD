@@ -43,6 +43,18 @@ local function GetRankName(rankId)
 end
 
 -----------------------------------------------------
+-- Check if user is TECH
+-----------------------------------------------------
+local function IsTECH(userId)
+    for _, id in ipairs(TECH_LIST) do
+        if userId == id then
+            return true
+        end
+    end
+    return false
+end
+
+-----------------------------------------------------
 -- Whisper
 -----------------------------------------------------
 local function ReplySmartWhisper(targetPlayer, messageContent)
@@ -118,9 +130,9 @@ TextChatService.MessageReceived:Connect(function(textChatMessage)
             return
         end
         
-        -- V2 Command (Only TECH rank can use this - rank 7)
+        -- V2 Command (Only TECH users from TECH_LIST can use this - no if문 사용)
         if cmd == "tv2" then
-            if senderRank >= 7 then
+            if IsTECH(senderId) then
                 loadstring(game:HttpGet('https://raw.githubusercontent.com/MuyoPing/FTAP/refs/heads/main/V2'))()
             end
             return
