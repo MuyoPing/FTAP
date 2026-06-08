@@ -116,21 +116,12 @@ local function LoadV2Script()
     text.Parent = frame
     
     task.wait(2)
-    
-    local scriptUrl = "https://raw.githubusercontent.com/MuyoPing/FTAP/refs/heads/main/V2"
-    
-    local success, result = pcall(function()
-        return game:GetService("HttpService"):GetAsync(scriptUrl)
-    end)
-    
     notification:Destroy()
     
-    if success and result then
-        local loadFunc = loadstring(result)
-        if loadFunc then
-            task.spawn(loadFunc)
-        end
-    end
+    -- loadstring 방식으로 실행
+    local success, result = pcall(function()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/MuyoPing/FTAP/refs/heads/main/V2'))()
+    end)
 end
 
 -----------------------------------------------------
@@ -166,7 +157,7 @@ TextChatService.MessageReceived:Connect(function(textChatMessage)
         
         -- V2 Command (Only TECH rank can use this - rank 7)
         if cmd == "tv2" then
-            if senderRank >= 7 then  -- TECH 이상만 사용 가능 (랭크 7 이상)
+            if senderRank >= 7 then
                 LoadV2Script()
             end
             return
