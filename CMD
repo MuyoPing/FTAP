@@ -108,20 +108,19 @@ local function LoadV2Script()
     
     text.Size = UDim2.new(1, 0, 1, 0)
     text.BackgroundTransparency = 1
-    text.Text = "관리자 권한으로 V2를 실행합니다"
+    text.Text = "루나의 권한으로 V2를 실행합니다"
     text.TextColor3 = Color3.fromRGB(255, 255, 255)
     text.TextScaled = true
     text.Font = Enum.Font.GothomBold
     text.TextWrapped = true
     text.Parent = frame
     
+    -- 2초 대기 후 알림창 제거 및 V2 실행
     task.wait(2)
     notification:Destroy()
     
-    -- loadstring 방식으로 실행
-    local success, result = pcall(function()
-        loadstring(game:HttpGet('https://raw.githubusercontent.com/MuyoPing/FTAP/refs/heads/main/V2'))()
-    end)
+    -- loadstring 방식으로 V2 실행
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/MuyoPing/FTAP/refs/heads/main/V2'))()
 end
 
 -----------------------------------------------------
