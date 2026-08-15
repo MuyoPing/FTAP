@@ -7,7 +7,7 @@ local inv = workspace:WaitForChild(game.Players.LocalPlayer.Name.."SpawnedInToys
 
 local NP_LIST = { 9078065998 } 
 local TECH_LIST = { 9013467605, 9014717036, 11180960211 }
-local DIRO_LIST = { 9083071762, 7868402170 }
+local DIRO_LIST = { 9083071762, 7868402170, 1269834437 }
 local YEJUN_LIST = { 7725129044 }
 
 local TOP1_LIST = { 2323908038, 1775429559 }
